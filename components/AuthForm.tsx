@@ -27,7 +27,6 @@ export function AuthForm({ type }: AuthFormProps) {
   return (
     <div className="w-full max-w-[480px] bg-white rounded-2xl border border-gray-200 shadow-xl p-8 md:p-12 flex flex-col gap-8">
       <div className="text-center flex flex-col gap-2">
-        <Sparkles className="w-10 h-10 text-indigo-600" />
         <h1 className="text-2xl font-bold text-gray-900">Fix with AI</h1>
         <h2 className="text-xl font-semibold text-gray-900">
           {type == "login" ? "Welcome Back!" : "Create Your Account"}

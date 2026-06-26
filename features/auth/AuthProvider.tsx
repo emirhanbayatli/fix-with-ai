@@ -46,7 +46,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (email: string, password: string) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      toast.success("Logged in successfully!");
+      toast.success("Başarıyla giriş yapıldı!");
     } catch (err: any) {
       toast.error(getErrorMessageFromCode(err.code));
     } finally {
@@ -71,7 +71,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         type: "emailPassword",
       });
 
-      toast.success("Account created successfully!");
+      toast.success("Hesap başarıyla oluşturuldu!");
     } catch (err: any) {
       toast.error(getErrorMessageFromCode(err.code));
     } finally {
@@ -82,7 +82,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = async () => {
     try {
       await signOut(auth);
-      toast.success("Logged out successfully!");
+      toast.success("Başarıyla çıkış yapıldı!");
     } catch (err: any) {
       toast.error(getErrorMessageFromCode(err.code));
     } finally {
@@ -94,7 +94,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       setLoading(true);
       await sendPasswordResetEmail(auth, email);
-      toast.success("Reset password link sent successfully!");
+      toast.success("Şifre sıfırlama bağlantısı başarıyla gönderildi!");
     } catch (err: any) {
       toast.error(getErrorMessageFromCode(err.code));
     } finally {
@@ -141,7 +141,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         status: "active",
       });
 
-      toast.success("Logged in with Google successfully!");
+      toast.success("Google ile başarıyla giriş yapıldı!");
     } catch (err: any) {
       toast.error(getErrorMessageFromCode(err.code));
     } finally {

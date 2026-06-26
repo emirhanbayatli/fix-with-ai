@@ -1,10 +1,9 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-
 import { useForm } from "react-hook-form";
 import { useAuth } from "@/features/auth/AuthProvider";
-import { Eye, EyeOff, Sparkles } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { SocialButton } from "./SocialButton";
 
 interface Auth {
@@ -29,16 +28,18 @@ export function AuthForm({ type }: AuthFormProps) {
       <div className="text-center flex flex-col gap-2">
         <h1 className="text-2xl font-bold text-gray-900">Fix with AI</h1>
         <h2 className="text-xl font-semibold text-gray-900">
-          {type == "login" ? "Welcome Back!" : "Create Your Account"}
+          {type == "login" ? "Tekrar Hoş Geldiniz!" : "Hesabınızı Oluşturun"}
         </h2>
-        <p className="text-sm text-gray-500">Upload, analyze and fix with AI</p>
+        <p className="text-sm text-gray-500">
+          Yükleyin, yapay zeka ile analiz edin ve tamir edin
+        </p>
       </div>
 
       {type != "resetPassword" ? (
         <div className="flex flex-col gap-6">
           <SocialButton provider="google" signInGoogleBtn={signInWithGoogle} />
           <span className="text-center text-[10px] text-gray-400 font-bold uppercase">
-            Or continue with
+            Veya şununla devam edin
           </span>
         </div>
       ) : null}
@@ -60,26 +61,26 @@ export function AuthForm({ type }: AuthFormProps) {
         {type === "register" && (
           <div className="flex flex-col gap-2">
             <label className="text-sm font-medium text-gray-700">
-              Full Name
+              Ad Soyad
             </label>
             <input
               {...register("fullName", {
-                required: "Full name is required!",
+                required: "Ad soyad alanı zorunludur!",
                 minLength: {
                   value: 3,
-                  message: "Full name must be at least 3 characters",
+                  message: "Ad soyad en az 3 karakter olmalıdır",
                 },
                 maxLength: {
                   value: 100,
-                  message: "Full name must not exceed 100 characters",
+                  message: "Ad soyad 100 karakteri geçmemelidir",
                 },
                 pattern: {
                   value: /^[A-Za-zÇĞİÖŞÜçğıöşü\s]+$/,
-                  message: "Full name can only contain letters",
+                  message: "Ad soyad sadece harflerden oluşabilir",
                 },
               })}
               type="text"
-              placeholder="John Doe"
+              placeholder="Ahmet Yılmaz"
               className="h-12 px-4 rounded-lg bg-white border border-gray-300 text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-600 focus:border-transparent outline-none transition-all"
             />
             {errors.fullName && (
@@ -92,26 +93,27 @@ export function AuthForm({ type }: AuthFormProps) {
 
         <div className="flex flex-col gap-2">
           <label className="text-sm font-medium text-gray-700">
-            Email Address
+            E-posta Adresi
           </label>
           <input
             {...register("email", {
-              required: "Email is required!",
+              required: "E-posta adresi zorunludur!",
               minLength: {
                 value: 5,
-                message: "Email must be at least 5 characters long",
+                message:
+                  "E-posta adresi en az 5 karakter uzunluğunda olmalıdır",
               },
               maxLength: {
                 value: 150,
-                message: "Email must not exceed 150 characters",
+                message: "E-posta adresi 150 karakteri geçmemelidir",
               },
               pattern: {
                 value: /^\S+@\S+$/i,
-                message: "Unexpected email format",
+                message: "Geçersiz e-posta formatı",
               },
             })}
             type="email"
-            placeholder="name@company.com"
+            placeholder="isim@sirket.com"
             className="h-12 px-4 rounded-lg bg-white border border-gray-300 text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-600 focus:border-transparent outline-none transition-all"
           />
           {errors.email && (
@@ -121,24 +123,22 @@ export function AuthForm({ type }: AuthFormProps) {
 
         {type != "resetPassword" ? (
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-gray-700">
-              Password
-            </label>
+            <label className="text-sm font-medium text-gray-700">Şifre</label>
             <div className="relative">
               <input
                 {...register("password", {
-                  required: "Password is required!",
+                  required: "Şifre alanı zorunludur!",
                   minLength: {
                     value: 8,
-                    message: "Password must be at least 8 characters long",
+                    message: "Şifre en az 8 karakter uzunluğunda olmalıdır",
                   },
                   maxLength: {
                     value: 60,
-                    message: "Password must not exceed 60 characters",
+                    message: "Şifre 60 karakteri geçmemelidir",
                   },
                 })}
                 type={showPassword ? "text" : "password"}
-                placeholder="Enter your password"
+                placeholder="Şifrenizi girin"
                 className="h-12 w-full pl-4 pr-12 rounded-lg bg-white border border-gray-300 text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-indigo-600 focus:border-transparent outline-none transition-all"
               />
               <button
@@ -158,7 +158,7 @@ export function AuthForm({ type }: AuthFormProps) {
                 href="/reset-password"
                 className="text-indigo-600 hover:text-indigo-700 font-medium transition-colors"
               >
-                Forgot password?
+                Şifrenizi mi unuttunuz?
               </Link>
             </div>
           </div>
@@ -166,24 +166,24 @@ export function AuthForm({ type }: AuthFormProps) {
 
         <button className="h-12 mt-2 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors shadow-sm">
           {type == "login"
-            ? "Sign In"
+            ? "Giriş Yap"
             : type == "resetPassword"
-              ? "Reset Password"
-              : "Sign Up"}
+              ? "Şifreyi Sıfırla"
+              : "Kayıt Ol"}
         </button>
       </form>
 
       <p className="text-center text-sm text-gray-600">
         {type == "login"
-          ? "Don't have an account?"
+          ? "Hesabınız yok mu?"
           : type == "resetPassword"
-            ? "Remembered your password?"
-            : "Already have an account?"}
+            ? "Şifrenizi hatırladınız mı?"
+            : "Zaten bir hesabınız var mı?"}
         <Link
           href={type === "login" ? "/register" : "/login"}
           className="ml-1 font-bold text-indigo-600 hover:text-indigo-700 transition-colors"
         >
-          {type === "login" ? "Sign Up" : "Sign In"}
+          {type === "login" ? "Kayıt Ol" : "Giriş Yap"}
         </Link>
       </p>
     </div>

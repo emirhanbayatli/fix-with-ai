@@ -17,12 +17,13 @@ export async function updateUserName(userId: string, newName: string) {
       updatedAt: new Date().toISOString(),
     });
 
-    return { success: true, message: "Name updated successfully!" };
+    return { success: true, message: "İsim başarıyla güncellendi!" };
   } catch (error) {
     console.error(error, "Name updated unsuccessfully!");
-    return { success: false, message: "Failed to update name" };
+    return { success: false, message: "İsim güncelleme başarısız oldu" };
   }
 }
+
 export async function updateUserPassword(
   currentPassword: string,
   newPassword: string,
@@ -32,7 +33,7 @@ export async function updateUserPassword(
     const user = auth.currentUser;
 
     if (!user || !user.email) {
-      return { success: false, message: "User not authenticated" };
+      return { success: false, message: "Kullanıcı oturumu bulunamadı" };
     }
     const credential = EmailAuthProvider.credential(
       user.email,
@@ -41,23 +42,25 @@ export async function updateUserPassword(
     await reauthenticateWithCredential(user, credential);
     await updatePassword(user, newPassword);
 
-    return { success: true, message: "Password updated successfully" };
+    return { success: true, message: "Şifre başarıyla güncellendi" };
   } catch (error: any) {
     console.error(error);
     return {
       success: false,
       message:
-        getErrorMessageFromCode(error.code) || "Failed to update password",
+        getErrorMessageFromCode(error.code) ||
+        "Şifre güncelleme başarısız oldu",
     };
   }
 }
+
 export async function deleteUserAccount(currentPassword: string) {
   try {
     const auth = getAuth();
     const user = auth.currentUser;
 
     if (!user || !user.email) {
-      return { success: false, message: "User not authenticated" };
+      return { success: false, message: "Kullanıcı oturumu bulunamadı" };
     }
     const credential = EmailAuthProvider.credential(
       user.email,
@@ -72,14 +75,15 @@ export async function deleteUserAccount(currentPassword: string) {
     await deleteUser(user);
     await auth.signOut();
 
-    return { success: true, message: "Account deleted successfully" };
+    return { success: true, message: "Hesap başarıyla silindi" };
   } catch (error: any) {
     console.error(error);
 
     return {
       success: false,
       message:
-        getErrorMessageFromCode(error.code) || "Failed to delete account",
+        getErrorMessageFromCode(error.code) ||
+        "Hesap silme işlemi başarısız oldu",
     };
   }
 }

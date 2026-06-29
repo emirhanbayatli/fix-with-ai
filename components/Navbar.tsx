@@ -13,6 +13,7 @@ import {
   DropdownMenuItem,
 } from "./ui/dropdown-menu";
 import { LogOut, User, Wrench, History } from "lucide-react";
+import MobileNavbar from "./MobileNavbar";
 
 export default function Navbar() {
   const { user, logout, loading } = useAuth();
@@ -24,116 +25,122 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
-      <div className="flex h-16 w-full items-center justify-between px-4 md:px-8">
-        <Link
-          href={"/"}
-          className="flex items-center gap-2 text-lg font-bold tracking-tight"
-        >
-          <Wrench className="h-5 w-5 text-indigo-600" />
-          <span>Fix with AI</span>
-        </Link>
+    <>
+      <nav className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md hidden md:block">
+        <div className="flex h-16 w-full items-center justify-between px-8">
+          <Link
+            href={"/"}
+            className="flex items-center gap-2 text-lg font-bold tracking-tight"
+          >
+            <Wrench className="h-5 w-5 text-indigo-600" />
+            <span>Fix with AI</span>
+          </Link>
 
-        <div className="flex items-center gap-2">
-          {loading ? (
-            <>
-              <div className="h-6 w-20 rounded-md bg-muted animate-pulse" />
-              <div className="h-6 w-24 rounded-md bg-muted animate-pulse" />
-            </>
-          ) : user ? (
-            <>
-              <Link
-                href="/analyze"
-                className="px-3 py-1.5 text-sm font-medium rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition"
-              >
-                Analiz Et
-              </Link>
-
-              <Link
-                href="/history"
-                className="px-3 py-1.5 text-sm font-medium rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition"
-              >
-                Geçmiş
-              </Link>
-            </>
-          ) : null}
-        </div>
-
-        <div className="flex items-center gap-3">
-          {loading ? (
-            <div className="h-9 w-9 rounded-full bg-muted animate-pulse" />
-          ) : !user ? (
-            <div className="flex items-center gap-2">
-              <Link
-                href="/login"
-                className="px-4 py-2 text-sm font-medium rounded-md hover:bg-accent transition"
-              >
-                Giriş Yap
-              </Link>
-
-              <Link
-                href="/register"
-                className="px-4 py-2 text-sm font-medium rounded-md bg-indigo-600 hover:bg-indigo-700 text-white transition"
-              >
-                Başla
-              </Link>
-            </div>
-          ) : (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="outline-none">
-                  <Avatar className="h-9 w-9 cursor-pointer">
-                    <AvatarFallback className="bg-indigo-50 text-indigo-700 font-bold border border-indigo-100">
-                      {(user.fullName || user.email || "K")
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")
-                        .toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                </button>
-              </DropdownMenuTrigger>
-
-              <DropdownMenuContent align="end" className="w-56 p-2">
-                <DropdownMenuLabel className="p-3">
-                  <p className="text-sm font-bold">
-                    {user.fullName || "Kullanıcı"}
-                  </p>
-                  <p className="text-xs text-muted-foreground truncate">
-                    {user.email}
-                  </p>
-                </DropdownMenuLabel>
-
-                <DropdownMenuSeparator />
-
-                <Link href="/profile">
-                  <DropdownMenuItem className="cursor-pointer">
-                    <User className="mr-2 h-4 w-4" />
-                    Profil
-                  </DropdownMenuItem>
-                </Link>
-
-                <Link href="/history">
-                  <DropdownMenuItem className="cursor-pointer">
-                    <History className="mr-2 h-4 w-4" />
-                    Geçmiş
-                  </DropdownMenuItem>
-                </Link>
-
-                <DropdownMenuSeparator />
-
-                <DropdownMenuItem
-                  onClick={handleLogout}
-                  className="cursor-pointer text-red-600 focus:text-red-600"
+          <div className="flex items-center gap-2">
+            {loading ? (
+              <>
+                <div className="h-6 w-20 rounded-md bg-muted animate-pulse" />
+                <div className="h-6 w-24 rounded-md bg-muted animate-pulse" />
+              </>
+            ) : user ? (
+              <>
+                <Link
+                  href="/analyze"
+                  className="px-3 py-1.5 text-sm font-medium rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition"
                 >
-                  <LogOut className="mr-3 h-4 w-4" />
-                  <span className="font-medium">Çıkış Yap</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )}
+                  Analiz Et
+                </Link>
+
+                <Link
+                  href="/history"
+                  className="px-3 py-1.5 text-sm font-medium rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition"
+                >
+                  Geçmiş
+                </Link>
+              </>
+            ) : null}
+          </div>
+
+          <div className="flex items-center gap-3">
+            {loading ? (
+              <div className="h-9 w-9 rounded-full bg-muted animate-pulse" />
+            ) : !user ? (
+              <div className="flex items-center gap-2">
+                <Link
+                  href="/login"
+                  className="px-4 py-2 text-sm font-medium rounded-md hover:bg-accent transition"
+                >
+                  Giriş Yap
+                </Link>
+
+                <Link
+                  href="/register"
+                  className="px-4 py-2 text-sm font-medium rounded-md bg-indigo-600 hover:bg-indigo-700 text-white transition"
+                >
+                  Başla
+                </Link>
+              </div>
+            ) : (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="outline-none">
+                    <Avatar className="h-9 w-9 cursor-pointer">
+                      <AvatarFallback className="bg-indigo-50 text-indigo-700 font-bold border border-indigo-100">
+                        {(user.fullName || user.email || "K")
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")
+                          .toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                  </button>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent align="end" className="w-56 p-2">
+                  <DropdownMenuLabel className="p-3">
+                    <p className="text-sm font-bold">
+                      {user.fullName || "Kullanıcı"}
+                    </p>
+                    <p className="text-xs text-muted-foreground truncate">
+                      {user.email}
+                    </p>
+                  </DropdownMenuLabel>
+
+                  <DropdownMenuSeparator />
+
+                  <Link href="/profile">
+                    <DropdownMenuItem className="cursor-pointer">
+                      <User className="mr-2 h-4 w-4" />
+                      Profil
+                    </DropdownMenuItem>
+                  </Link>
+
+                  <Link href="/history">
+                    <DropdownMenuItem className="cursor-pointer">
+                      <History className="mr-2 h-4 w-4" />
+                      Geçmiş
+                    </DropdownMenuItem>
+                  </Link>
+
+                  <DropdownMenuSeparator />
+
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    className="cursor-pointer text-red-600 focus:text-red-600"
+                  >
+                    <LogOut className="mr-3 h-4 w-4" />
+                    <span className="font-medium">Çıkış Yap</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+          </div>
         </div>
+      </nav>
+
+      <div className="md:hidden">
+        <MobileNavbar />
       </div>
-    </nav>
+    </>
   );
 }

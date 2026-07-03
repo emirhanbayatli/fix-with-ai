@@ -16,6 +16,7 @@ export default function Page() {
   if (analysisData && imageUrl) {
     return (
       <ResultCard
+        title={analysisData.title}
         steps={analysisData.steps}
         materials={analysisData.materials}
         imageUrl={imageUrl}

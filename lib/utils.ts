@@ -4,52 +4,49 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
 export function getErrorMessageFromCode(code: string): string {
   switch (code) {
-    case "auth/user-not-found":
-      return "No account found with this email.";
-    case "auth/wrong-password":
-      return "Incorrect password. Please try again.";
-    case "auth/email-already-in-use":
-      return "This email is already in use.";
     case "auth/invalid-email":
-      return "Invalid email address format.";
-    case "auth/weak-password":
-      return "Password should be at least 6 characters.";
-    case "auth/missing-password":
-      return "Please enter your password.";
-    case "auth/too-many-requests":
-      return "Too many failed attempts. Please try again later.";
+      return "Geçersiz e-posta adresi.";
+
+    case "auth/user-not-found":
     case "auth/invalid-login-credentials":
-      return "Invalid email or password.";
-    case "auth/network-request-failed":
-      return "Network error. Please check your internet connection.";
-    case "auth/internal-error":
-      return "An internal error occurred. Please try again.";
-    case "auth/operation-not-allowed":
-      return "This sign-in method is not enabled.";
-    case "auth/user-disabled":
-      return "This account has been disabled.";
-    case "auth/popup-closed-by-user":
-      return "The popup was closed before completing the sign in.";
-    case "auth/popup-blocked":
-      return "Popup was blocked by your browser.";
-    case "auth/requires-recent-login":
-      return "Please log in again to perform this action.";
-    case "auth/invalid-credential":
-      return "The provided credential is invalid. Please try again.";
+      return "E-posta veya şifre hatalı.";
+
     case "auth/wrong-password":
-      return "Current password is incorrect";
+      return "Şifre hatalı.";
+
+    case "auth/email-already-in-use":
+      return "Bu e-posta adresi zaten kullanımda.";
+
     case "auth/weak-password":
-      return "Password should be at least 6 characters";
+      return "Şifre en az 6 karakter olmalıdır.";
+
+    case "auth/missing-password":
+      return "Lütfen şifrenizi girin.";
+
+    case "auth/too-many-requests":
+      return "Çok fazla başarısız giriş denemesi yapıldı. Lütfen daha sonra tekrar deneyin.";
+
+    case "auth/network-request-failed":
+      return "İnternet bağlantınızı kontrol edip tekrar deneyin.";
+
     case "auth/requires-recent-login":
-      return "Please login again and try";
-    case "auth/wrong-password":
-      return "Current password is incorrect";
+      return "Bu işlemi yapmak için tekrar giriş yapmanız gerekiyor.";
+
+    case "auth/user-disabled":
+      return "Bu hesap devre dışı bırakılmıştır.";
+    case "auth/popup-closed-by-user":
+      return "Giriş penceresi kapatıldı.";
+    case "auth/popup-blocked":
+      return "Tarayıcı açılır pencereyi engelledi.";
+
     default:
-      return "An unexpected error occurred. Please try again.";
+      return "Bir hata oluştu. Lütfen tekrar deneyin.";
   }
 }
+
 export const formatDate = (isoString: string) => {
   if (!isoString) return "";
   const date = new Date(isoString);

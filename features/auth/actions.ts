@@ -73,7 +73,6 @@ export async function deleteUserAccount(currentPassword: string) {
       status: "deleted",
     });
     await deleteUser(user);
-    await auth.signOut();
 
     return { success: true, message: "Hesap başarıyla silindi" };
   } catch (error: any) {

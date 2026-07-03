@@ -7,6 +7,7 @@ import {
   Clock,
   AlertTriangle,
   ShoppingCart,
+  Wrench,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -23,6 +24,7 @@ interface Material {
 }
 
 interface ResultPageProps {
+  title?: string;
   steps: Step[];
   materials: Material[];
   imageUrl: string;
@@ -33,6 +35,7 @@ interface ResultPageProps {
 }
 
 export default function ResultCard({
+  title = "Sistem Tarafından Tespit Edilen Arıza",
   steps = [],
   materials: initialMaterials = [],
   imageUrl,
@@ -77,6 +80,15 @@ export default function ResultCard({
   return (
     <div className="bg-[#f8f9fa] text-[#191c1d] min-h-screen antialiased">
       <main className="pt-24 pb-32 px-6 max-w-[1280px] mx-auto">
+        <section className="mb-8 border-b border-gray-200/60 pb-6 animate-in fade-in slide-in-from-top-4 duration-300">
+          <div className="flex items-center gap-3 text-sm font-semibold text-[#004ac6] mb-2 uppercase tracking-wider">
+            <Wrench className="w-4 h-4" />
+            <span>Yapay Zeka Destekli Çözüm</span>
+          </div>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-[#191c1d] tracking-tight leading-tight">
+            {title}
+          </h1>
+        </section>
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
           <div className="lg:col-span-7 relative group">
             <div className="rounded-2xl overflow-hidden aspect-video shadow-lg bg-white/80 backdrop-blur-xl border border-gray-200">

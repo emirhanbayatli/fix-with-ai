@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, ChangeEvent } from "react";
-import { Upload, X, Cpu } from "lucide-react";
+import { Upload, X, Cpu, MessageSquareText } from "lucide-react";
 import { toast } from "sonner";
+import { useAuth } from "@/features/auth/AuthProvider";
 
 interface UploadSectionProps {
   onAnalysisComplete: (data: any, localImageUrl: string) => void;
@@ -11,7 +12,9 @@ interface UploadSectionProps {
 export function UploadSection({ onAnalysisComplete }: UploadSectionProps) {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [additionalNotes, setAdditionalNotes] = useState<string>("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const { user } = useAuth();
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -37,6 +40,8 @@ export function UploadSection({ onAnalysisComplete }: UploadSectionProps) {
 
       const formData = new FormData();
       formData.append("image", selectedImage);
+      formData.append("userId", user?.id || "anonymous");
+      formData.append("additionalNotes", additionalNotes.trim());
 
       const res = await fetch("/api/analyze", {
         method: "POST",
@@ -133,6 +138,27 @@ export function UploadSection({ onAnalysisComplete }: UploadSectionProps) {
             </div>
           )}
         </div>
+
+        {previewUrl && (
+          <div className="w-full bg-white rounded-2xl p-4 border border-gray-200/80 shadow-sm flex flex-col items-start gap-2 animate-in fade-in slide-in-from-bottom-2 duration-300">
+            <label
+              htmlFor="notes"
+              className="flex items-center gap-2 text-sm font-semibold text-[#434655]"
+            >
+              <MessageSquareText className="w-4 h-4 text-[#004ac6]" />
+              <span>Eklemek İstediğiniz Detaylar</span>
+            </label>
+            <textarea
+              id="notes"
+              rows={3}
+              value={additionalNotes}
+              onChange={(e) => setAdditionalNotes(e.target.value)}
+              disabled={isAnalyzing}
+              placeholder="Cihazın markası, modeli veya arızanın ne zaman ve nasıl gerçekleştiği hakkında kısa bilgi ekleyebilirsiniz... (Örn: Arçelik çamaşır makinesi, sıkma yaparken aşırı ses çıkarıyor)"
+              className="w-full rounded-xl border-gray-200 text-sm text-[#191c1d] placeholder:text-gray-400 focus:border-[#004ac6] focus:ring-[#004ac6] transition-all resize-none p-3 bg-[#f8f9fa]"
+            />
+          </div>
+        )}
 
         {previewUrl && (
           <button

@@ -43,6 +43,7 @@ export function getErrorMessageFromCode(code: string): string {
       return "Tarayıcı açılır pencereyi engelledi.";
 
     default:
+      console.log("err code", code);
       return "Bir hata oluştu. Lütfen tekrar deneyin.";
   }
 }

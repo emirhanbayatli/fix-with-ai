@@ -4,6 +4,7 @@ import { useState, ChangeEvent } from "react";
 import { Upload, X, Cpu, MessageSquareText } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/features/auth/AuthProvider";
+import { auth } from "@/lib/firebase";
 
 interface UploadSectionProps {
   onAnalysisComplete: (data: any, localImageUrl: string) => void;
@@ -14,7 +15,6 @@ export function UploadSection({ onAnalysisComplete }: UploadSectionProps) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [additionalNotes, setAdditionalNotes] = useState<string>("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const { user } = useAuth();
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -40,11 +40,15 @@ export function UploadSection({ onAnalysisComplete }: UploadSectionProps) {
 
       const formData = new FormData();
       formData.append("image", selectedImage);
-      formData.append("userId", user?.id || "anonymous");
+
       formData.append("additionalNotes", additionalNotes.trim());
+      const token = await auth.currentUser?.getIdToken();
 
       const res = await fetch("/api/analyze", {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         body: formData,
       });
 

@@ -266,7 +266,7 @@ export default function Home() {
               </h2>
               <p className="text-lg opacity-90 max-w-2xl mx-auto">
                 Bir hesap oluşturun ve yapay zekanın gücüyle bozuk eşyalarınızı
-                yeniden hayata döndürün. Üstelik ilk 3 analiz tamamen ücretsiz!
+                yeniden hayata döndürün.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
                 <Link

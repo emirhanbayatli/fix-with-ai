@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useEffect } from "react";
 import { Upload, X, Cpu, MessageSquareText } from "lucide-react";
 import { toast } from "sonner";
-import { useAuth } from "@/features/auth/AuthProvider";
+
 import { auth } from "@/lib/firebase";
 
 interface UploadSectionProps {
@@ -15,6 +15,31 @@ export function UploadSection({ onAnalysisComplete }: UploadSectionProps) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [additionalNotes, setAdditionalNotes] = useState<string>("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+
+  const loadingTexts = [
+    "Görsel inceleniyor...",
+    "Arıza tespit ediliyor...",
+    "Çözüm araştırılıyor...",
+    "Tamir rehberi oluşturuluyor...",
+    "Neredeyse hazır...",
+  ];
+  const [loadingText, setLoadingText] = useState(loadingTexts[0]);
+
+  useEffect(() => {
+    if (!isAnalyzing) {
+      setLoadingText(loadingTexts[0]);
+      return;
+    }
+
+    let index = 0;
+
+    const interval = setInterval(() => {
+      index = (index + 1) % loadingTexts.length;
+      setLoadingText(loadingTexts[index]);
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [isAnalyzing]);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -172,7 +197,7 @@ export function UploadSection({ onAnalysisComplete }: UploadSectionProps) {
             className="bg-[#004ac6] text-white px-10 py-4 rounded-full font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100 w-full sm:w-auto justify-center"
           >
             <Cpu className={`w-5 h-5 ${isAnalyzing ? "animate-spin" : ""}`} />
-            {isAnalyzing ? "Yapay Zeka Analiz Ediyor..." : "Sorunu Analiz Et"}
+            {isAnalyzing ? loadingText : "Sorunu Analiz Et"}
           </button>
         )}
       </div>

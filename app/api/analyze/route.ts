@@ -9,6 +9,34 @@ const ai = new GoogleGenAI({
 
 export async function POST(req: Request) {
   try {
+    const today = new Date().toISOString().split("T")[0];
+
+    const usageRef = adminDb.collection("app_stats").doc("ai_usage");
+
+    const usageSnap = await usageRef.get();
+
+    let count = 0;
+    let date = today;
+
+    if (usageSnap.exists) {
+      const data = usageSnap.data();
+
+      count = data?.count ?? 0;
+      date = data?.date ?? today;
+    }
+
+    if (date !== today) {
+      count = 0;
+    }
+
+    if (count >= 20) {
+      return NextResponse.json(
+        {
+          error: "Bugünkü AI analiz limiti doldu. Lütfen yarın tekrar deneyin.",
+        },
+        { status: 429 },
+      );
+    }
     const formData = await req.formData();
     const image = formData.get("image") as File;
 
@@ -177,6 +205,11 @@ ${additionalNotes?.trim() || "Ek not verilmedi."}
         createdAt: new Date().toISOString(),
         ...parsed,
       });
+
+    await usageRef.set({
+      date: today,
+      count: count + 1,
+    });
 
     return NextResponse.json(parsed);
   } catch (err: any) {
